@@ -6,6 +6,7 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
 import { Button, Grid, TextField } from '@mui/material';
+import { selectOrderAndSetTimeStamps } from '../Services/Captains/SelectParcelAndSetTimeStamps';
 
 const style = {
     position: 'absolute',
@@ -32,6 +33,21 @@ function SelectParcel({ open, handleClose, order }) {
 
     const handleSelectOrder = async (e) => {
         e.preventDefault();
+        try {
+            const timeStamps = {
+                pickUpDate: pickUpDate.split("-").reverse().join("-"),
+                deliveryDate: dropOffDate.split("-").reverse().join("-")
+            }
+
+            const result = await selectOrderAndSetTimeStamps(timeStamps, order.parcelId, user.token);
+
+            if (result) {
+                navigate('/Captain/inProgress');
+            }
+
+        } catch (error) {
+            console.error("Failed to select this order " + error);
+        }
     }
 
     return (
