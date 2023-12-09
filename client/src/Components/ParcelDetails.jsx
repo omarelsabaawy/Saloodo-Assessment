@@ -41,20 +41,20 @@ function ParcelDetails({ open, handleClose, order }) {
                         color='inherit'
                         sx={{ height: '15px', borderRadius: '1rem', marginTop: '25px' }}
                         value={
-                            order.parcelStatus.selected ? 25 :
-                                order.parcelStatus.pickedUp ? 50 :
-                                    order.parcelStatus.onTheWay ? 75 :
-                                        order.parcelStatus.droppedOff ? 100 : 0
+                            order.parcelStatus.delivered ? 100 :
+                                order.parcelStatus.onTheWay ? 75 :
+                                    order.parcelStatus.pickedUp ? 50 :
+                                        order.parcelStatus.selected ? 25 : 0
                         } />
                     <Grid container sx={{ marginTop: '25px' }}>
                         <Grid item xs={6} md={9}>
                             <span style={{ fontSize: "16px" }}>Order Status:</span> {order.currentStatus}
                         </Grid>
                         <Grid sx={{ float: 'right' }} item xs={6} md={3}>
-                            {order.parcelStatus.selected ? 25 :
-                                order.parcelStatus.pickedUp ? 50 :
-                                    order.parcelStatus.onTheWay ? 75 :
-                                        order.parcelStatus.droppedOff ? 100 : 0} % finished
+                            {order.parcelStatus.delivered ? 100 :
+                                order.parcelStatus.onTheWay ? 75 :
+                                    order.parcelStatus.pickedUp ? 50 :
+                                        order.parcelStatus.selected ? 25 : 0} % finished
                         </Grid>
                     </Grid>
                     <Grid container sx={{ marginTop: '30px' }}>
