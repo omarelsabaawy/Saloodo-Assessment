@@ -44,7 +44,7 @@ exports.createParcel = (req, res) => {
 exports.getParcels = (req, res) => {
     const { id } = req.params;
 
-    const userParcels = parcels.filter((parcel) => parcel.senderId === id && parcel.parcelStatus.droppedOff !== true);
+    const userParcels = parcels.filter((parcel) => parcel.senderId === id && !parcel.parcelStatus.delivered);
 
     const totalParcels = parcels.filter((parcel) => parcel.senderId === id);
 
@@ -67,7 +67,7 @@ exports.getParcels = (req, res) => {
 exports.getPreviousParcels = (req, res) => {
     const { id } = req.params;
 
-    const previousParcels = parcels.filter((parcel) => parcel.senderId === id && parcel.parcelStatus.droppedOff === true);
+    const previousParcels = parcels.filter((parcel) => parcel.senderId === id && parcel.parcelStatus.delivered);
 
     if (previousParcels.length > 0) {
         return res.status(200).json({
@@ -82,8 +82,3 @@ exports.getPreviousParcels = (req, res) => {
     }
 
 }
-
-
-// exports.getParcelStatus = (req, res) => {
-    
-// }
