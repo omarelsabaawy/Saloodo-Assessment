@@ -5,7 +5,6 @@ import { listParcels } from '../../Services/Captains/ListParcels';
 import ParcelDetails from '../ParcelDetails';
 import SelectParcel from '../SelectParcel';
 
-
 function BikerDashboard() {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(false);

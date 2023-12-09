@@ -37,17 +37,17 @@ exports.selectAnOrderAndSetTimeStamps = (req, res) => {
         });
     }
 
+    selectedParcel.bikerId = req.biker.bikerId;
     selectedParcel.biker = req.biker.bikerName;
     selectedParcel.bikerPhoneNumber = req.biker.phoneNumber;
 
     selectedParcel.parcelStatus.selected = true;
+    selectedParcel.currentStatus = "Waiting for Pickup";
 
     selectedParcel.parcelTimeStamps = {
         pickUpDate: pickUpDate,
         deliveryDate: deliveryDate
     };
-
-    selectedParcel.currentStatus = "Waiting for Pickup";
 
     return res.status(200).json({
         success: true
@@ -55,7 +55,7 @@ exports.selectAnOrderAndSetTimeStamps = (req, res) => {
 }
 
 exports.inProgressOrders = (req, res) => {
-    const inProgressOrders = parcels.filter((parcel) => parcel.parcelStatus.selected === true);
+    const inProgressOrders = parcels.filter((parcel) => parcel.bikerId === req.biker.bikerId && !parcel.parcelStatus.delivered);
     if (inProgressOrders.length > 0) {
         return res.status(200).json({
             orders: inProgressOrders

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, CardActionArea, CardActions, CardContent, CircularProgress, Grid, Paper, Typography } from '@mui/material';
 import { useUser } from '../../Context/UserContext';
-import { listParcels } from '../../Services/Captains/ListParcels';
 import ParcelDetails from '../ParcelDetails';
+import { listInProgressParcels } from '../../Services/Captains/ListInProgressOrder';
 
 function InProgress() {
     const [orders, setOrders] = useState([]);
@@ -18,6 +18,23 @@ function InProgress() {
     const handleClose = () => {
         setViewOrder(null);
     };
+
+    useEffect(() => {
+        const fetchInProgressOrders = async () => {
+            try {
+                setLoading(true);
+                const result = await listInProgressParcels(user.token);
+                console.log(result);
+                setOrders(result);
+                setLoading(false);
+            } catch (error) {
+                console.error('Failed to fetch parcel data:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchInProgressOrders();
+    }, [user.token])
 
     return (
         <Grid container sx={{ marginTop: 3 }}>
@@ -60,11 +77,16 @@ function InProgress() {
                                                 <Typography sx={{ fontSize: '16' }} color="text.secondary">
                                                     to: {order.dropOffAddress}
                                                 </Typography>
-                                                <Typography sx={{ fontSize: '16' }} color="text.secondary">
+                                                <Typography sx={{ fontSize: '16' }} color="orange">
                                                     Status: {order.currentStatus}
                                                 </Typography>
                                             </CardContent>
                                         </CardActionArea>
+                                        <CardActions sx={{ justifyContent: 'center' }}>
+                                            <Button color="success" variant="outlined" size="medium">
+                                                Order To-Do List
+                                            </Button>
+                                        </CardActions>
                                     </Card>
                                 </Grid>
                             ))}

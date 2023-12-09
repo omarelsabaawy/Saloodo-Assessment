@@ -17,6 +17,7 @@ exports.createParcel = (req, res) => {
         senderPhoneNumber: req.sender.phoneNumber,
         pickUpAddress: pickUpAddress,
         dropOffAddress: dropOffAddress,
+        bikerId: "",
         biker: "",
         bikerPhoneNumber: "",
         currentStatus: "Waiting for a Captain",
@@ -24,7 +25,7 @@ exports.createParcel = (req, res) => {
             selected: false,
             pickedUp: false,
             onTheWay: false,
-            droppedOff: false
+            delivered: false
         },
         parcelTimeStamps: {
             pickUpDate: "",

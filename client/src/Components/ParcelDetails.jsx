@@ -64,12 +64,12 @@ function ParcelDetails({ open, handleClose, order }) {
                     </Grid>
                     <Grid container sx={{ marginTop: '30px' }}>
                         <Grid sx={{ fontSize: '18px' }} item xs={6} md={9}>
-                            Pick up date: {!order.pickUpDate ? "Not Assigned" : order.pickUpDate}
+                            Pick up date: {!order.parcelTimeStamps.pickUpDate ? "Not Assigned" : order.parcelTimeStamps.pickUpDate}
                         </Grid>
                     </Grid>
                     <Grid container sx={{ marginTop: '30px' }}>
                         <Grid sx={{ fontSize: '18px' }} item xs={6} md={9}>
-                            Delivery date: {!order.deliveryDate ? "Not Assigned" : order.deliveryDate}
+                            Delivery date: {!order.parcelTimeStamps.deliveryDate ? "Not Assigned" : order.parcelTimeStamps.deliveryDate}
                         </Grid>
                     </Grid>
                 </Box>
