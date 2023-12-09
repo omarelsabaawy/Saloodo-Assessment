@@ -1,0 +1,32 @@
+[
+  {
+    "userId": "1",
+    "username": "user1",
+    "password": "password1",
+    "phoneNumber": "123-456-7890"
+  },
+  {
+    "userId": "2",
+    "username": "user2",
+    "password": "password2",
+    "phoneNumber": "234-567-8901"
+  },
+  {
+    "userId": "3",
+    "username": "user3",
+    "password": "password3",
+    "phoneNumber": "345-678-9012"
+  },
+  {
+    "userId": "4",
+    "username": "user4",
+    "password": "password4",
+    "phoneNumber": "456-789-0123"
+  },
+  {
+    "userId": "5",
+    "username": "user5",
+    "password": "password5",
+    "phoneNumber": "567-890-1234"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "bikerId": "1",
+    "bikerName": "biker1",
+    "password": "password1",
+    "phoneNumber": "789-012-3456"
+  },
+  {
+    "bikerId": "2",
+    "bikerName": "biker2",
+    "password": "password2",
+    "phoneNumber": "890-123-4567"
+  },
+  {
+    "bikerId": "3",
+    "bikerName": "biker3",
+    "password": "password3",
+    "phoneNumber": "901-234-5678"
+  },
+  {
+    "bikerId": "4",
+    "bikerName": "biker4",
+    "password": "password4",
+    "phoneNumber": "012-345-6789"
+  },
+  {
+    "bikerId": "5",
+    "bikerName": "biker5",
+    "password": "password5",
+    "phoneNumber": "123-456-7890"
+  },
+  {
+    "bikerId": "6",
+    "bikerName": "biker6",
+    "password": "password6",
+    "phoneNumber": "234-567-8901"
+  },
+  {
+    "bikerId": "7",
+    "bikerName": "biker7",
+    "password": "password7",
+    "phoneNumber": "345-678-9012"
+  },
+  {
+    "bikerId": "8",
+    "bikerName": "biker8",
+    "password": "password8",
+    "phoneNumber": "456-789-0123"
+  },
+  {
+    "bikerId": "9",
+    "bikerName": "biker9",
+    "password": "password9",
+    "phoneNumber": "567-890-1234"
+  },
+  {
+    "bikerId": "10",
+    "bikerName": "biker10",
+    "password": "password10",
+    "phoneNumber": "678-901-2345"
+  }
+]
