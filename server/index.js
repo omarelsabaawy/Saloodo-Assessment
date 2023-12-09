@@ -5,6 +5,7 @@ const socketIO = require('socket.io');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const senderRoutes = require('./routes/sender');
+const bikerRoutes = require('./routes/biker');
 
 // Load environment variables from a .env file
 require('dotenv').config();
@@ -27,6 +28,7 @@ app.use(cors());
 // Enable the routers
 app.use('/auth', authRoutes);
 app.use('/sender', senderRoutes);
+app.use('/biker', bikerRoutes);
 
 // Socket.IO connection event
 io.on('connection', (socket) => {

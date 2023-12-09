@@ -45,7 +45,7 @@ exports.isBiker = (req, res, next) => {
         return res.status(403).json({ error: 'Unauthorized' });
     }
 
-    const biker = captains.find((biker) => biker.id === user.userId);
+    const biker = captains.find((biker) => biker.bikerId === user.userId);
 
     if (!biker) {
         return res.status(401).json({ error: 'biker not found' });
