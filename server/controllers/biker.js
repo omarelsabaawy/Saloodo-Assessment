@@ -54,6 +54,19 @@ exports.selectAnOrderAndSetTimeStamps = (req, res) => {
     });
 }
 
+exports.inProgressOrders = (req, res) => {
+    const inProgressOrders = parcels.filter((parcel) => parcel.parcelStatus.selected === true);
+    if (inProgressOrders.length > 0) {
+        return res.status(200).json({
+            orders: inProgressOrders
+        });
+    } else {
+        return res.status(200).json({
+            orders: []
+        });
+    }
+}
+
 exports.updateParcelStatus = (req, res) => {
 
 }
