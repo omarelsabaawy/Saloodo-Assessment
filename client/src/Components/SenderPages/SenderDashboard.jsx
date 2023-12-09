@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
-import { Grid, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import { Button, Grid, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import { useUser } from '../../Context/UserContext';
 import { getParcels } from '../../Services/Users/GetParcels';
 import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress
+import ParcelDetails from '../ParcelDetails';
 
 function SenderDashboard() {
     const [parcelData, setParcelData] = useState({
@@ -12,6 +13,16 @@ function SenderDashboard() {
         recentOrders: [],
     });
     const [loading, setLoading] = useState(false);
+
+    const [viewOrder, setViewOrder] = useState(null);
+
+    const handleOpen = (order) => {
+        setViewOrder(order);
+    };
+
+    const handleClose = () => {
+        setViewOrder(null);
+    };
 
     const { currentParcels, totalParcels, recentOrders } = parcelData;
     const { user } = useUser();
@@ -93,7 +104,8 @@ function SenderDashboard() {
                                     <TableCell sx={{ fontWeight: "bold" }}>Drop off address</TableCell>
                                     <TableCell sx={{ fontWeight: "bold" }}>Pick Up Date</TableCell>
                                     <TableCell sx={{ fontWeight: "bold" }}>Delivery Date</TableCell>
-                                    <TableCell sx={{ fontWeight: "bold" }}>Parcel status</TableCell>
+                                    <TableCell sx={{ fontWeight: "bold" }}>Order status</TableCell>
+                                    <TableCell sx={{ fontWeight: "bold" }}>Open Order</TableCell>
                                 </TableRow>
                             </TableHead>
                             {recentOrders.length !== 0 ? (
@@ -105,19 +117,28 @@ function SenderDashboard() {
                                             <TableCell>{!order.parcelTimeStamps.pickUpDate ? "Not Assigned" : order.parcelTimeStamps.pickUpDate}</TableCell>
                                             <TableCell>{!order.parcelTimeStamps.deliveryDate ? "Not Assigned" : order.parcelTimeStamps.deliveryDate}</TableCell>
                                             <TableCell>{order.currentStatus}</TableCell>
+                                            <TableCell>
+                                                <Button color='info' variant='contained' size="small" onClick={() => handleOpen(order)}>Show Order</Button>
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
                             ) : (
                                 <TableBody>
-                                    <TableCell>No item</TableCell>
-                                    <TableCell>No item</TableCell>
-                                    <TableCell>No item</TableCell>
-                                    <TableCell>No item</TableCell>
-                                    <TableCell>No item</TableCell>
+                                    <TableRow>
+                                        <TableCell>No item</TableCell>
+                                        <TableCell>No item</TableCell>
+                                        <TableCell>No item</TableCell>
+                                        <TableCell>No item</TableCell>
+                                        <TableCell>No item</TableCell>
+                                        <TableCell>No item</TableCell>
+                                    </TableRow>
                                 </TableBody>
                             )}
                         </Table>
+                    )}
+                    {viewOrder && (
+                        <ParcelDetails open={true} handleClose={handleClose} order={viewOrder} />
                     )}
                 </Paper>
             </Grid>
