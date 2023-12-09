@@ -68,6 +68,10 @@ function BikerDashboard() {
                                 <CircularProgress />
                             </Grid>
                         </Grid>
+                    ) : orders.length === 0 ? (
+                        <Typography variant="subtitle1" color="textSecondary" align="center">
+                            No orders available.
+                        </Typography>
                     ) : (
                         <Grid container spacing={2}>
                             {orders.map((order) => (
