@@ -26,7 +26,10 @@ exports.createParcel = (req, res) => {
             onTheWay: false,
             droppedOff: false
         },
-        parcelTimeStamps:""
+        parcelTimeStamps: {
+            pickUpDate: "",
+            deliveryDate: ""
+        }
     };
 
     parcels.push(newParcel);

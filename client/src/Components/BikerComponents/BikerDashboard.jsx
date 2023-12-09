@@ -2,11 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, Paper, Typography } from '@mui/material';
 import { useUser } from '../../Context/UserContext';
 import { listParcels } from '../../Services/Captains/ListParcels';
+import ParcelDetails from '../ParcelDetails';
 
 
 function BikerDashboard() {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [selectedOrder, setSelectedOrder] = useState(null);
+
+    const handleOpen = (order) => {
+        setSelectedOrder(order);
+    };
+
+    const handleClose = () => {
+        setSelectedOrder(null);
+    };
 
     const { user } = useUser();
 
@@ -20,20 +30,20 @@ function BikerDashboard() {
             } finally {
                 setLoading(false);
             }
-        }
+        };
         fetchOrders();
     }, [user.token]);
 
     return (
         <Grid container sx={{ marginTop: 3 }}>
-            <Grid item md={12} lg={11.5} >
+            <Grid item md={12} lg={11.5}>
                 <Paper
                     sx={{
                         p: 2,
                         display: 'flex',
                         flexDirection: 'column',
                         height: 460,
-                        overflowY: 'auto'
+                        overflowY: 'auto',
                     }}
                 >
                     <Typography component="h2" variant="h6" color="primary" gutterBottom>
@@ -41,23 +51,25 @@ function BikerDashboard() {
                     </Typography>
                     <Grid container spacing={2}>
                         {orders.map((order) => (
-                            <Grid item xs={6} md={4}>
+                            <Grid item xs={6} md={4} key={order.parcelId}>
                                 <Card sx={{ maxWidth: 345 }}>
-                                    <CardActionArea>
+                                    <CardActionArea onClick={() => handleOpen(order)}>
                                         <CardContent>
-                                            <Typography gutterBottom sx={{ fontSize: "18px" }} component="div">
-                                                Order id <span style={{ fontSize: "16px", textDecoration: 'underline' }}>{order.parcelId}</span>
+                                            <Typography gutterBottom sx={{ fontSize: '18px' }} component="div">
+                                                Order id <span style={{ fontSize: '16px', textDecoration: 'underline' }}>{order.parcelId}</span>
                                             </Typography>
-                                            <Typography sx={{ fontSize: "16" }} color="text.secondary">
+                                            <Typography sx={{ fontSize: '16' }} color="text.secondary">
                                                 From: {order.pickUpAddress}
                                             </Typography>
-                                            <Typography sx={{ fontSize: "16" }} color="text.secondary">
+                                            <Typography sx={{ fontSize: '16' }} color="text.secondary">
                                                 to: {order.dropOffAddress}
                                             </Typography>
                                         </CardContent>
                                     </CardActionArea>
-                                    <CardActions sx={{ justifyContent: "center" }}>
-                                        <Button color='success' variant='outlined' size="medium">Select the order</Button>
+                                    <CardActions sx={{ justifyContent: 'center' }}>
+                                        <Button color="success" variant="outlined" size="medium" onClick={() => handleOpen(order)}>
+                                            Select the order
+                                        </Button>
                                     </CardActions>
                                 </Card>
                             </Grid>
@@ -65,6 +77,9 @@ function BikerDashboard() {
                     </Grid>
                 </Paper>
             </Grid>
+            {selectedOrder && (
+                <ParcelDetails open={true} handleClose={handleClose} order={selectedOrder} />
+            )}
         </Grid>
     );
 }
