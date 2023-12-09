@@ -88,7 +88,7 @@ function BikerDashboard() {
                                         </CardActionArea>
                                         <CardActions sx={{ justifyContent: 'center' }}>
                                             <Button color="success" variant="outlined" size="medium" onClick={() => handleOpenSelectOrder(order)}>
-                                                Select the order
+                                                Pick up the order
                                             </Button>
                                         </CardActions>
                                     </Card>
