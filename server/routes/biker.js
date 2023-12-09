@@ -4,6 +4,6 @@ const { getAllRecentOrders } = require('../controllers/biker');
 
 const router = express.Router();
 
-router.get('/getAllRecentParcels', isBiker, getAllRecentOrders);
+router.get('/parcels', isBiker, getAllRecentOrders);
 
 module.exports = router;

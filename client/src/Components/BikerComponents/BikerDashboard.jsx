@@ -1,7 +1,29 @@
+import React, { useEffect, useState } from 'react';
 import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, Paper, Typography } from '@mui/material';
-import React from 'react';
+import { useUser } from '../../Context/UserContext';
+import { listParcels } from '../../Services/Captains/ListParcels';
+
 
 function BikerDashboard() {
+    const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    const { user } = useUser();
+
+    useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                const result = await listParcels(user.token);
+                setOrders(result);
+            } catch (error) {
+                console.error('Failed to fetch parcel data:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchOrders();
+    }, [user.token]);
+
     return (
         <Grid container sx={{ marginTop: 3 }}>
             <Grid item md={12} lg={11.5} >
@@ -18,26 +40,28 @@ function BikerDashboard() {
                         Recent Orders
                     </Typography>
                     <Grid container spacing={2}>
-                        <Grid item xs={6} md={4}>
-                            <Card sx={{ maxWidth: 345 }}>
-                                <CardActionArea>
-                                    <CardContent>
-                                        <Typography gutterBottom component="div">
-                                            Order number
-                                        </Typography>
-                                        <Typography sx={{ fontSize: "16" }} color="text.secondary">
-                                            From:
-                                        </Typography>
-                                        <Typography sx={{ fontSize: "16" }} color="text.secondary">
-                                            to:
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                                <CardActions sx={{ justifyContent: "center" }}>
-                                    <Button color='success' variant='outlined' size="medium">Select the order</Button>
-                                </CardActions>
-                            </Card>
-                        </Grid>
+                        {orders.map((order) => (
+                            <Grid item xs={6} md={4}>
+                                <Card sx={{ maxWidth: 345 }}>
+                                    <CardActionArea>
+                                        <CardContent>
+                                            <Typography gutterBottom sx={{ fontSize: "18px" }} component="div">
+                                                Order id <span style={{ fontSize: "16px", textDecoration: 'underline' }}>{order.parcelId}</span>
+                                            </Typography>
+                                            <Typography sx={{ fontSize: "16" }} color="text.secondary">
+                                                From: {order.pickUpAddress}
+                                            </Typography>
+                                            <Typography sx={{ fontSize: "16" }} color="text.secondary">
+                                                to: {order.dropOffAddress}
+                                            </Typography>
+                                        </CardContent>
+                                    </CardActionArea>
+                                    <CardActions sx={{ justifyContent: "center" }}>
+                                        <Button color='success' variant='outlined' size="medium">Select the order</Button>
+                                    </CardActions>
+                                </Card>
+                            </Grid>
+                        ))}
                     </Grid>
                 </Paper>
             </Grid>
