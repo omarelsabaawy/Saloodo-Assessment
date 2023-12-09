@@ -37,7 +37,7 @@ function ParcelDetails({ open, handleClose, order }) {
                         Order Id {order.parcelId}
                     </Typography>
                     <LinearProgress
-                        variant="buffer"
+                        variant="determinate"
                         color='inherit'
                         sx={{ height: '15px', borderRadius: '1rem', marginTop: '25px' }}
                         value={

@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, CardActionArea, CardActions, CardContent, CircularProgress, Grid, Paper, Typography } from '@mui/material';
 import { useUser } from '../../Context/UserContext';
 import ParcelDetails from '../ParcelDetails';
+import OrderToDoList from '../OrderToDoList';
 import { listInProgressParcels } from '../../Services/Captains/ListInProgressOrder';
 
 function InProgress() {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(false);
     const [viewOrder, setViewOrder] = useState(null);
+    const [viewToDoListOrder, setViewToDoListOrder] = useState(null);
 
     const { user } = useUser();
 
@@ -19,12 +21,19 @@ function InProgress() {
         setViewOrder(null);
     };
 
+    const handleOpenToDoList = (order) => {
+        setViewToDoListOrder(order);
+    }
+
+    const handleCloseToDoList = () => {
+        setViewToDoListOrder(null);
+    };
+
     useEffect(() => {
         const fetchInProgressOrders = async () => {
             try {
                 setLoading(true);
                 const result = await listInProgressParcels(user.token);
-                console.log(result);
                 setOrders(result);
                 setLoading(false);
             } catch (error) {
@@ -83,7 +92,7 @@ function InProgress() {
                                             </CardContent>
                                         </CardActionArea>
                                         <CardActions sx={{ justifyContent: 'center' }}>
-                                            <Button color="success" variant="outlined" size="medium">
+                                            <Button color="success" variant="outlined" size="medium" onClick={() => handleOpenToDoList(order)}>
                                                 Order To-Do List
                                             </Button>
                                         </CardActions>
@@ -97,7 +106,9 @@ function InProgress() {
             {viewOrder && (
                 <ParcelDetails open={true} handleClose={handleClose} order={viewOrder} />
             )}
-
+            {viewToDoListOrder && (
+                <OrderToDoList open={true} handleClose={handleCloseToDoList} order={viewToDoListOrder} />
+            )}
         </Grid>
     );
 }
