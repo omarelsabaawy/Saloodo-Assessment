@@ -91,8 +91,8 @@ function SenderDashboard() {
                                 <TableRow>
                                     <TableCell sx={{ fontWeight: "bold" }}>Pick up address</TableCell>
                                     <TableCell sx={{ fontWeight: "bold" }}>Drop off address</TableCell>
-                                    <TableCell sx={{ fontWeight: "bold" }}>Captain name</TableCell>
-                                    <TableCell sx={{ fontWeight: "bold" }}>Captain phone number</TableCell>
+                                    <TableCell sx={{ fontWeight: "bold" }}>Pick Up Date</TableCell>
+                                    <TableCell sx={{ fontWeight: "bold" }}>Delivery Date</TableCell>
                                     <TableCell sx={{ fontWeight: "bold" }}>Parcel status</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -102,8 +102,8 @@ function SenderDashboard() {
                                         <TableRow key={order.parcelId}>
                                             <TableCell>{order.pickUpAddress}</TableCell>
                                             <TableCell>{order.dropOffAddress}</TableCell>
-                                            <TableCell>{order.biker}</TableCell>
-                                            <TableCell>{order.bikerPhoneNumber}</TableCell>
+                                            <TableCell>{!order.parcelTimeStamps.pickUpDate ? "Not Assigned" : order.parcelTimeStamps.pickUpDate}</TableCell>
+                                            <TableCell>{!order.parcelTimeStamps.deliveryDate ? "Not Assigned" : order.parcelTimeStamps.deliveryDate}</TableCell>
                                             <TableCell>{order.currentStatus}</TableCell>
                                         </TableRow>
                                     ))}

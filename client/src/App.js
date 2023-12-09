@@ -7,12 +7,12 @@ import ErrorPage from './Pages/ErrorPage'
 import { Grid, ThemeProvider, createTheme } from '@mui/material';
 import { useUser } from './Context/UserContext';
 import SideBar from './Components/SideBar';
-import BikerDashboard from './Components/BikerComponents/BikerDashboard';
-import InProgress from './Components/BikerComponents/InProgress';
-import PastOrders from './Components/BikerComponents/PastOrders';
-import SenderDashboard from './Components/SenderComponents/SenderDashboard';
-import CreateNewParcel from './Components/SenderComponents/CreateNewParcel';
-import PreviousParcels from './Components/SenderComponents/PreviousParcels';
+import BikerDashboard from './Components/BikerPages/BikerDashboard';
+import InProgress from './Components/BikerPages/InProgress';
+import PastOrders from './Components/BikerPages/PastOrders';
+import SenderDashboard from './Components/SenderPages/SenderDashboard';
+import CreateNewParcel from './Components/SenderPages/CreateNewParcel';
+import PreviousParcels from './Components/SenderPages/PreviousParcels';
 import { Toaster } from 'react-hot-toast';
 
 function App() {
