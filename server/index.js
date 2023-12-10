@@ -43,16 +43,13 @@ const connectedSenders = [];
 
 // Socket.IO connection event
 io.on('connection', (socket) => {
-    console.log('Socket Connected ' + socket.id);
 
     socket.on('bikerConnected', (bikerId) => {
         connectedBikers[bikerId] = socket.id;
-        console.log(`Biker ${bikerId} connected`);
     });
 
     socket.on('senderConnected', (senderId) => {
         connectedBikers[senderId] = socket.id;
-        console.log(`Sender ${senderId} connected`);
     });
 
     socket.on('createdParcel', () => {
