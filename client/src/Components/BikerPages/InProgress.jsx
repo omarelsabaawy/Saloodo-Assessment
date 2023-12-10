@@ -38,7 +38,7 @@ function InProgress() {
         socket = io(ENDPOINT);
         socket.emit("bikerConnected", user.id);
         socket.on("connection", () => setSocketConnected(true));
-    }, []);
+    }, [user.id]);
 
     useEffect(() => {
         socket.emit("bikerConnected", user.id);
@@ -46,7 +46,7 @@ function InProgress() {
             setOrders(recentParcels);
         };
         socket.on('update recent orders after biker selection', handleUpdateOrders)
-    }, [])
+    }, [user.id])
 
     useEffect(() => {
         const fetchInProgressOrders = async () => {

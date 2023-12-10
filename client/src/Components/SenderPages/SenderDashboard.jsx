@@ -37,7 +37,7 @@ function SenderDashboard() {
         socket = io(ENDPOINT);
         socket.emit("senderConnected", user.id);
         socket.on("connection", () => setSocketConnected(true));
-    }, []);
+    }, [user.id]);
 
     useEffect(() => {
         socket.emit("senderConnected", user.id);
@@ -45,7 +45,7 @@ function SenderDashboard() {
             setParcelData(parcelData);
         };
         socket.on('update recent orders for sender after biker selection', handleUpdateOrders)
-    }, [])
+    }, [user.id])
 
     useEffect(() => {
         const fetchData = async () => {

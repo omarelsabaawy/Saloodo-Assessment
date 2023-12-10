@@ -31,15 +31,14 @@ function SelectParcel({ open, handleClose, order }) {
     const [pickUpDate, setPickUpDate] = useState("");
     const [dropOffDate, setDropOffDate] = useState("");
     const [socketConnected, setSocketConnected] = useState(false);
-
+    
+    const { user } = useUser();
 
     useEffect(() => {
         socket = io(ENDPOINT);
         socket.emit("bikerConnected", user.id);
         socket.on("connection", () => setSocketConnected(true));
     }, []);
-
-    const { user } = useUser();
 
     const navigate = useNavigate();
 

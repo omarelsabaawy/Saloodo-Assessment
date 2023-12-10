@@ -38,7 +38,7 @@ function BikerDashboard() {
         socket = io(ENDPOINT);
         socket.emit("bikerConnected", user.id);
         socket.on("connection", () => setSocketConnected(true));
-    }, []);
+    }, [user.id]);
 
     useEffect(() => {
         socket.emit('bikerConnected', user.id);
@@ -47,7 +47,7 @@ function BikerDashboard() {
         };
         socket.on("updateOrders", handleUpdateOrders);
 
-    }, []);
+    }, [user.id]);
 
     useEffect(() => {
         const handleUpdateOrders = (recentParcels) => {
