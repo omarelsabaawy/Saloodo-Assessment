@@ -132,3 +132,22 @@ exports.updateParcelStatus = (req, res) => {
         updatedParcel: selectedParcel
     });
 };
+
+exports.getPreviousParcels = (req, res) => {
+    const { id } = req.params;
+
+    const previousParcels = parcels.filter((parcel) => parcel.bikerId === id && parcel.parcelStatus.delivered);
+
+    if (previousParcels.length > 0) {
+        return res.status(200).json({
+            parcels: previousParcels,
+            previousParcelsCount: previousParcels.length
+        });
+    } else {
+        return res.status(200).json({
+            parcels: [],
+            previousParcelsCount: 0
+        });
+    }
+
+}

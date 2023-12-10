@@ -5,7 +5,7 @@ const BASE_URL = 'http://localhost:8080';
 
 export const pastOrders = async (id, token) => {
     try {
-        const response = await axios.get(`${BASE_URL}/sender/previousParcels/${id}`, {
+        const response = await axios.get(`${BASE_URL}/biker/previousParcels/${id}`, {
             headers: {
                 Authorization: `${token}`,
             },
