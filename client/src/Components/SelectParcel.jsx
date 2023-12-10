@@ -9,7 +9,7 @@ import { Button, Grid, TextField } from '@mui/material';
 import { selectOrderAndSetTimeStamps } from '../Services/Captains/SelectParcelAndSetTimeStamps';
 import io from 'socket.io-client'
 
-const ENDPOINT = "http://localhost:8080";
+const ENDPOINT = "http://localhost:5000";
 var socket;
 
 const style = {

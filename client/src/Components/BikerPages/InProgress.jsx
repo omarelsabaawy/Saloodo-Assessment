@@ -6,7 +6,7 @@ import OrderToDoList from '../OrderToDoList';
 import { listInProgressParcels } from '../../Services/Captains/ListInProgressOrder';
 import io from 'socket.io-client'
 
-const ENDPOINT = "http://localhost:8080";
+const ENDPOINT = "http://localhost:5000";
 var socket;
 
 function InProgress() {
