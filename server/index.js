@@ -61,7 +61,6 @@ io.on('connection', (socket) => {
     });
 
     socket.on('bikerSelected', (bikerId, senderId) => {
-        console.log(bikerId, senderId);
         const connectedBikersArray = Object.values(connectedBikers);
         const otherConnectedBikers = connectedBikersArray.filter(biker => biker.id !== bikerId);
         const recentParcels = parcels.filter((parcel) => !parcel.parcelStatus.selected);
@@ -76,6 +75,26 @@ io.on('connection', (socket) => {
             recentOrders: senderRecentParcels,
         }
         socket.to(specificSender).emit('update recent orders for sender after biker selection', parcelData);
+    });
+
+    socket.on('BikerSelectsToDoItem', (senderId) => {
+        const connectedSendersArray = Object.values(connectedSenders);
+        const specificSender = connectedSendersArray.filter(sender => sender.id !== senderId);
+        const senderTotalParcels = parcels.filter((parcel) => parcel.senderId === senderId);
+        const senderRecentParcels = parcels.filter((parcel) => parcel.senderId === senderId && !parcel.parcelStatus.delivered);
+        const parcelData = {
+            currentParcels: senderRecentParcels.length,
+            totalParcels: senderTotalParcels.length,
+            recentOrders: senderRecentParcels,
+        }
+        socket.to(specificSender).emit('update recent orders for sender after biker selection', parcelData);
+    });
+
+    socket.on('updateInProgress', (bikerId) => {
+        const connectedBikersArray = Object.values(connectedBikers);
+        const specificBiker = connectedBikersArray.filter(biker => biker.id === bikerId);
+        const inProgressParcels = parcels.filter((parcel) => parcel.parcelStatus.selected && !parcel.parcelStatus.delivered);
+        socket.to(specificBiker).emit('update recent orders after biker selection', inProgressParcels);
     });
 
     // Socket.IO disconnect event

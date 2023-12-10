@@ -4,12 +4,17 @@ import { useUser } from '../../Context/UserContext';
 import ParcelDetails from '../ParcelDetails';
 import OrderToDoList from '../OrderToDoList';
 import { listInProgressParcels } from '../../Services/Captains/ListInProgressOrder';
+import io from 'socket.io-client'
+
+const ENDPOINT = "http://localhost:8080";
+var socket;
 
 function InProgress() {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(false);
     const [viewOrder, setViewOrder] = useState(null);
     const [viewToDoListOrder, setViewToDoListOrder] = useState(null);
+    const [socketConnected, setSocketConnected] = useState(false);
 
     const { user } = useUser();
 
@@ -28,6 +33,20 @@ function InProgress() {
     const handleCloseToDoList = () => {
         setViewToDoListOrder(null);
     };
+
+    useEffect(() => {
+        socket = io(ENDPOINT);
+        socket.emit("bikerConnected", user.id);
+        socket.on("connection", () => setSocketConnected(true));
+    }, []);
+
+    useEffect(() => {
+        socket.emit("bikerConnected", user.id);
+        const handleUpdateOrders = (recentParcels) => {
+            setOrders(recentParcels);
+        };
+        socket.on('update recent orders after biker selection', handleUpdateOrders)
+    }, [])
 
     useEffect(() => {
         const fetchInProgressOrders = async () => {
