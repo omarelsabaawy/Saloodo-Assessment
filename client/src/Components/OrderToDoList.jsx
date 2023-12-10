@@ -6,6 +6,10 @@ import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
 import { Checkbox, Grid, LinearProgress } from '@mui/material';
 import { UpdateParcelStatus } from '../Services/Captains/UpdateParcelStatus';
+import io from 'socket.io-client'
+
+const ENDPOINT = "http://localhost:8080";
+var socket;
 
 const style = {
     position: 'absolute',
@@ -27,6 +31,8 @@ function OrderToDoList({ open, handleClose, order }) {
     const [orderPickedUp, setOrderPickedUp] = useState(currentOrderDetails.parcelStatus.pickedUp);
     const [orderOnTheWay, setOrderOnTheWay] = useState(currentOrderDetails.parcelStatus.onTheWay);
     const [orderDelivered, setOrderDelivered] = useState(currentOrderDetails.parcelStatus.delivered);
+    const [socketConnected, setSocketConnected] = useState(false);
+
 
     const { user } = useUser();
 
@@ -37,6 +43,12 @@ function OrderToDoList({ open, handleClose, order }) {
         setOrderDelivered(order.parcelStatus.delivered);
     }, [order]);
 
+    useEffect(() => {
+        socket = io(ENDPOINT);
+        socket.emit("bikerConnected", user.id);
+        socket.on("connection", () => setSocketConnected(true));
+    }, []);
+
     const handlePickedUp = async (e) => {
         e.preventDefault();
         try {
@@ -45,6 +57,7 @@ function OrderToDoList({ open, handleClose, order }) {
 
             if (success) {
                 // Update local state if the backend update was successful
+                socket.emit('to do list action', (user.id, currentOrderDetails.senderId));
                 setOrderPickedUp(true);
                 setCurrentOrderDetails(updatedParcel);
             }
@@ -62,6 +75,7 @@ function OrderToDoList({ open, handleClose, order }) {
 
             if (success) {
                 // Update local state if the backend update was successful
+                socket.emit('to do list action', (user.id, order.senderId));
                 setOrderOnTheWay(true);
                 setCurrentOrderDetails(updatedParcel);
             }

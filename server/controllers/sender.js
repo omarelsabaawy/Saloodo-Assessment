@@ -13,7 +13,7 @@ exports.createParcel = (req, res, io) => {
     const newParcel = {
         parcelId: uuid.v4(),
         senderId: req.sender.userId,
-        senderUsername: req.sender.Username,
+        senderUsername: req.sender.username,
         senderPhoneNumber: req.sender.phoneNumber,
         pickUpAddress: pickUpAddress,
         dropOffAddress: dropOffAddress,

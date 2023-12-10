@@ -39,6 +39,7 @@ app.use('/sender', senderRoutes);
 app.use('/biker', bikerRoutes);
 
 const connectedBikers = [];
+const connectedSenders = [];
 
 // Socket.IO connection event
 io.on('connection', (socket) => {
@@ -49,16 +50,32 @@ io.on('connection', (socket) => {
         console.log(`Biker ${bikerId} connected`);
     });
 
+    socket.on('senderConnected', (senderId) => {
+        connectedBikers[senderId] = socket.id;
+        console.log(`Sender ${senderId} connected`);
+    });
+
     socket.on('createdParcel', () => {
         const recentParcels = parcels.filter((parcel) => !parcel.parcelStatus.selected);
         socket.to(Object.values(connectedBikers)).emit('updateOrders', recentParcels);
     });
 
-    socket.on('bikerSelected', (bikerId) => {
+    socket.on('bikerSelected', (bikerId, senderId) => {
+        console.log(bikerId, senderId);
         const connectedBikersArray = Object.values(connectedBikers);
         const otherConnectedBikers = connectedBikersArray.filter(biker => biker.id !== bikerId);
         const recentParcels = parcels.filter((parcel) => !parcel.parcelStatus.selected);
         socket.to(otherConnectedBikers).emit('update recent orders after biker selection', recentParcels);
+        const connectedSendersArray = Object.values(connectedSenders);
+        const specificSender = connectedSendersArray.filter(sender => sender.id !== senderId);
+        const senderTotalParcels = parcels.filter((parcel) => parcel.senderId === senderId);
+        const senderRecentParcels = parcels.filter((parcel) => parcel.senderId === senderId && !parcel.parcelStatus.delivered);
+        const parcelData = {
+            currentParcels: senderRecentParcels.length,
+            totalParcels: senderTotalParcels.length,
+            recentOrders: senderRecentParcels,
+        }
+        socket.to(specificSender).emit('update recent orders for sender after biker selection', parcelData);
     });
 
     // Socket.IO disconnect event

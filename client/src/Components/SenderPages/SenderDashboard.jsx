@@ -5,6 +5,10 @@ import { useUser } from '../../Context/UserContext';
 import { getParcels } from '../../Services/Users/GetParcels';
 import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress
 import ParcelDetails from '../ParcelDetails';
+import io from 'socket.io-client'
+
+const ENDPOINT = "http://localhost:8080";
+var socket;
 
 function SenderDashboard() {
     const [parcelData, setParcelData] = useState({
@@ -15,6 +19,8 @@ function SenderDashboard() {
     const [loading, setLoading] = useState(false);
 
     const [viewOrder, setViewOrder] = useState(null);
+    const [socketConnected, setSocketConnected] = useState(false);
+
 
     const handleOpen = (order) => {
         setViewOrder(order);
@@ -26,6 +32,20 @@ function SenderDashboard() {
 
     const { currentParcels, totalParcels, recentOrders } = parcelData;
     const { user } = useUser();
+
+    useEffect(() => {
+        socket = io(ENDPOINT);
+        socket.emit("senderConnected", user.id);
+        socket.on("connection", () => setSocketConnected(true));
+    }, []);
+
+    useEffect(() => {
+        socket.emit("senderConnected", user.id);
+        const handleUpdateOrders = (parcelData) => {
+            setParcelData(parcelData);
+        };
+        socket.on('update recent orders for sender after biker selection', handleUpdateOrders)
+    }, [])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -42,6 +62,7 @@ function SenderDashboard() {
         };
         fetchData();
     }, [user.id, user.token]);
+
 
     return (
         <Container>

@@ -54,7 +54,7 @@ function SelectParcel({ open, handleClose, order }) {
             const result = await selectOrderAndSetTimeStamps(timeStamps, order.parcelId, user.token);
 
             if (result) {
-                socket.emit('bikerSelected', user.id);
+                socket.emit('bikerSelected', user.id, order.senderId);
                 navigate('/Captain/inProgress');
             }
 

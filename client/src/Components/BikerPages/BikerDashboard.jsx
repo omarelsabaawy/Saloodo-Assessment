@@ -38,7 +38,7 @@ function BikerDashboard() {
         socket = io(ENDPOINT);
         socket.emit("bikerConnected", user.id);
         socket.on("connection", () => setSocketConnected(true));
-    }, [])
+    }, []);
 
     useEffect(() => {
         socket.emit('bikerConnected', user.id);

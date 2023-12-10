@@ -22,8 +22,6 @@ function CreateNewParcel() {
     const { user } = useUser();
     const navigate = useNavigate();
 
-    console.log(ws.id)
-
     const handleCreateParcel = async (e) => {
         e.preventDefault();
 
