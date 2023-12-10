@@ -12,10 +12,9 @@ export const previousParcels = async (id, token) => {
         });
         // Assuming your backend returns data of Number of current and previous parcels, and the current parcels.
         const { parcels, previousParcelsCount } = response.data;
-
         return {
             parcels: previousParcelsCount,
-            previousParcels: parcels,
+            previousOrders: parcels,
         };
 
     } catch (error) {

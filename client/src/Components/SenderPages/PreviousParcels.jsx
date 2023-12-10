@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
-import { Grid, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography, CircularProgress } from '@mui/material';
+import { Grid, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography, CircularProgress, Button } from '@mui/material';
 import { useUser } from '../../Context/UserContext';
 import { previousParcels } from '../../Services/Users/PreviousParcels';
+import ParcelDetails from '../ParcelDetails';
 
 function PreviousParcels() {
     const [loading, setLoading] = useState(true);
@@ -12,13 +13,29 @@ function PreviousParcels() {
     });
 
     const { parcels, previousOrders } = parcelData;
+
+    const [viewOrder, setViewOrder] = useState(null);
+
+    const handleOpen = (order) => {
+        setViewOrder(order);
+    };
+
+    const handleClose = () => {
+        setViewOrder(null);
+    };
+
     const { user } = useUser();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
+                setLoading(true);
                 const result = await previousParcels(user.id, user.token);
-                setParcelData(result);
+                if (result) {
+                    setParcelData(result);
+                    console.log(result);
+                }
+                setLoading(false);
             } catch (error) {
                 console.error('Failed to fetch parcel data:', error);
             } finally {
@@ -27,6 +44,8 @@ function PreviousParcels() {
         }
         fetchData();
     }, [user.id, user.token]);
+
+    console.log(parcelData.previousOrders);
 
     return (
         <Container>
@@ -76,33 +95,46 @@ function PreviousParcels() {
                                     <TableCell sx={{ fontWeight: "bold" }}>Captain name</TableCell>
                                     <TableCell sx={{ fontWeight: "bold" }}>Captain phone number</TableCell>
                                     <TableCell sx={{ fontWeight: "bold" }}>Parcel status</TableCell>
+                                    <TableCell sx={{ fontWeight: "bold" }}>Open Order</TableCell>
+
                                 </TableRow>
                             </TableHead>
-                            {parcels !== 0 ? (
-                                <TableBody>
-                                    {previousOrders.map((order) => (
-                                        <TableRow key={order.parcelId}>
-                                            <TableCell>{order.pickUpAddress}</TableCell>
-                                            <TableCell>{order.dropOffAddress}</TableCell>
-                                            <TableCell>{order.biker}</TableCell>
-                                            <TableCell>{order.bikerPhoneNumber}</TableCell>
-                                            <TableCell>{order.currentStatus}</TableCell>
+                            <TableBody>
+                                {parcels === 0 ? (
+                                    <>
+                                        <TableRow>
+                                            <TableCell>No item</TableCell>
+                                            <TableCell>No item</TableCell>
+                                            <TableCell>No item</TableCell>
+                                            <TableCell>No item</TableCell>
+                                            <TableCell>No item</TableCell>
+                                            <TableCell>No item</TableCell>
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            ) : (
-                                <TableBody>
-                                    <TableCell>No item</TableCell>
-                                    <TableCell>No item</TableCell>
-                                    <TableCell>No item</TableCell>
-                                    <TableCell>No item</TableCell>
-                                    <TableCell>No item</TableCell>
-                                </TableBody>
-                            )}
+                                    </>
+                                ) : (
+                                    previousOrders.map((order) => (
+                                        <TableBody>
+                                            <TableRow key={order.parcelId}>
+                                                <TableCell>{order.pickUpAddress}</TableCell>
+                                                <TableCell>{order.dropOffAddress}</TableCell>
+                                                <TableCell>{order.biker}</TableCell>
+                                                <TableCell>{order.bikerPhoneNumber}</TableCell>
+                                                <TableCell>{order.currentStatus}</TableCell>
+                                                <TableCell>
+                                                    <Button color='info' variant='contained' size="small" onClick={() => handleOpen(order)}>Show Order</Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                    ))
+                                )}
+                            </TableBody>
                         </Table>
                     )}
                 </Paper>
             </Grid>
+            {viewOrder && (
+                <ParcelDetails open={true} handleClose={handleClose} order={viewOrder} />
+            )}
         </Container>
     );
 }
