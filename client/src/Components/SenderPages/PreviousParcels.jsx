@@ -45,8 +45,6 @@ function PreviousParcels() {
         fetchData();
     }, [user.id, user.token]);
 
-    console.log(parcelData.previousOrders);
-
     return (
         <Container>
             <Container sx={{ display: 'flex' }}>
@@ -113,18 +111,16 @@ function PreviousParcels() {
                                     </>
                                 ) : (
                                     previousOrders.map((order) => (
-                                        <TableBody>
-                                            <TableRow key={order.parcelId}>
-                                                <TableCell>{order.pickUpAddress}</TableCell>
-                                                <TableCell>{order.dropOffAddress}</TableCell>
-                                                <TableCell>{order.biker}</TableCell>
-                                                <TableCell>{order.bikerPhoneNumber}</TableCell>
-                                                <TableCell>{order.currentStatus}</TableCell>
-                                                <TableCell>
-                                                    <Button color='info' variant='contained' size="small" onClick={() => handleOpen(order)}>Show Order</Button>
-                                                </TableCell>
-                                            </TableRow>
-                                        </TableBody>
+                                        <TableRow key={order.parcelId}>
+                                            <TableCell>{order.pickUpAddress}</TableCell>
+                                            <TableCell>{order.dropOffAddress}</TableCell>
+                                            <TableCell>{order.biker}</TableCell>
+                                            <TableCell>{order.bikerPhoneNumber}</TableCell>
+                                            <TableCell>{order.currentStatus}</TableCell>
+                                            <TableCell>
+                                                <Button color='info' variant='contained' size="small" onClick={() => handleOpen(order)}>Show Order</Button>
+                                            </TableCell>
+                                        </TableRow>
                                     ))
                                 )}
                             </TableBody>
