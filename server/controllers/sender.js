@@ -36,7 +36,8 @@ exports.createParcel = (req, res, io) => {
     parcels.push(newParcel);
 
     return res.status(200).json({
-        success: true
+        success: true,
+        newParcel
     });
 
 }

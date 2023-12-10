@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import socketIO from 'socket.io-client';
 import { Button, Card, CardActionArea, CardActions, CardContent, CircularProgress, Grid, Paper, Typography } from '@mui/material';
 import { useUser } from '../../Context/UserContext';
 import { listParcels } from '../../Services/Captains/ListParcels';
 import ParcelDetails from '../ParcelDetails';
 import SelectParcel from '../SelectParcel';
+import io from 'socket.io-client'
+
+const ENDPOINT = "http://localhost:8080";
+var socket;
 
 function BikerDashboard() {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(false);
     const [viewOrder, setViewOrder] = useState(null);
     const [selectOrder, setSelectOrder] = useState(null);
-
-    const WS = 'http://localhost:8080';
-
-    const ws = socketIO(WS);
+    const [socketConnected, setSocketConnected] = useState(false);
 
     const handleOpen = (order) => {
         setViewOrder(order);
@@ -33,6 +33,22 @@ function BikerDashboard() {
     };
 
     const { user } = useUser();
+
+    useEffect(() => {
+        socket = io(ENDPOINT);
+        socket.emit("bikerConnected", user.id);
+        socket.on("connection", () => setSocketConnected(true));
+    }, [])
+
+    useEffect(() => {
+        // socket.emit('bikerConnected', user.id);
+        const handleUpdateOrders = (parcels) => {
+            console.log('Received updated orders:', parcels);
+            setOrders(parcels);
+        };
+        socket.on("updateOrders", handleUpdateOrders);
+
+    }, []);
 
     useEffect(() => {
         const fetchOrders = async () => {

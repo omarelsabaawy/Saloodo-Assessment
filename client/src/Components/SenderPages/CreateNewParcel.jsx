@@ -11,6 +11,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useUser } from '../../Context/UserContext';
 import { createNewParcel } from '../../Services/Users/CreateParcel';
 import { useNavigate } from 'react-router-dom';
+import ws from '../../Socket';
+
 
 function CreateNewParcel() {
     const [pickUpAddress, setPickUpAddress] = useState("");
@@ -19,6 +21,8 @@ function CreateNewParcel() {
 
     const { user } = useUser();
     const navigate = useNavigate();
+
+    console.log(ws.id)
 
     const handleCreateParcel = async (e) => {
         e.preventDefault();
@@ -34,6 +38,9 @@ function CreateNewParcel() {
             const result = await createNewParcel(parcelData, user.token);
 
             if (result.success) {
+
+                ws.emit('createdParcel', result.newParcel);
+
                 navigate('/User/dashboard');
             }
 

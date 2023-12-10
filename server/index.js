@@ -7,6 +7,7 @@ const cors = require('cors'); // Import the cors middleware
 const authRoutes = require('./routes/auth');
 const senderRoutes = require('./routes/sender');
 const bikerRoutes = require('./routes/biker');
+const parcels = require('./models/parcels.json');
 
 // Load environment variables from a .env file
 require('dotenv').config();
@@ -36,13 +37,24 @@ app.use('/auth', authRoutes);
 app.use('/sender', senderRoutes);
 app.use('/biker', bikerRoutes);
 
+const connectedBikers = [];
+
 // Socket.IO connection event
 io.on('connection', (socket) => {
-    console.log('Socket Connected');
+    console.log('Socket Connected ' + socket.id);
+
+    socket.on('bikerConnected', (bikerId) => {
+        connectedBikers[bikerId] = socket.id;
+        console.log(`Biker ${bikerId} connected`);
+    });
+
+    socket.on('createdParcel', () => {
+        socket.to(Object.values(connectedBikers)).emit('updateOrders', parcels);
+    });
 
     // Socket.IO disconnect event
     socket.on('disconnect', () => {
-        console.log('Socket Disconnected');
+        console.log(`Socket Disconnected`);
     });
 });
 
@@ -50,5 +62,3 @@ io.on('connection', (socket) => {
 server.listen(process.env.PORT || 8080, () => {
     console.log(`The server is running on port ${process.env.PORT || 8080}`);
 });
-
-module.exports = io;
