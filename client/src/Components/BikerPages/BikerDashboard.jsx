@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import socketIO from 'socket.io-client';
 import { Button, Card, CardActionArea, CardActions, CardContent, CircularProgress, Grid, Paper, Typography } from '@mui/material';
 import { useUser } from '../../Context/UserContext';
 import { listParcels } from '../../Services/Captains/ListParcels';
@@ -10,6 +11,10 @@ function BikerDashboard() {
     const [loading, setLoading] = useState(false);
     const [viewOrder, setViewOrder] = useState(null);
     const [selectOrder, setSelectOrder] = useState(null);
+
+    const WS = 'http://localhost:8080';
+
+    const ws = socketIO(WS);
 
     const handleOpen = (order) => {
         setViewOrder(order);

@@ -1,8 +1,9 @@
 // Import necessary modules
 const express = require('express');
 const http = require('http');
-const socketIO = require('socket.io');
-const cors = require('cors');
+const { Server } = require('socket.io');
+const cors = require('cors'); // Import the cors middleware
+
 const authRoutes = require('./routes/auth');
 const senderRoutes = require('./routes/sender');
 const bikerRoutes = require('./routes/biker');
@@ -13,17 +14,22 @@ require('dotenv').config();
 // Create an Express app
 const app = express();
 
+// Enable CORS (Cross-Origin Resource Sharing) for all routes
+app.use(cors());
+
 // Create an HTTP server using the Express app
 const server = http.createServer(app);
 
 // Create a Socket.IO instance attached to the HTTP server
-const io = socketIO(server);
+const io = new Server(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST", "PUT", "DELETE"]
+    }
+});
 
 // Middleware to parse JSON requests
 app.use(express.json());
-
-// Enable CORS (Cross-Origin Resource Sharing) for all routes
-app.use(cors());
 
 // Enable the routers
 app.use('/auth', authRoutes);
@@ -44,3 +50,5 @@ io.on('connection', (socket) => {
 server.listen(process.env.PORT || 8080, () => {
     console.log(`The server is running on port ${process.env.PORT || 8080}`);
 });
+
+module.exports = io;

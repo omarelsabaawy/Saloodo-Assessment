@@ -1,7 +1,7 @@
 const uuid = require('uuid');
 const parcels = require('../models/parcels.json');
 
-exports.createParcel = (req, res) => {
+exports.createParcel = (req, res, io) => {
     const { pickUpAddress, dropOffAddress } = req.body;
 
     if (!pickUpAddress || !dropOffAddress) {
