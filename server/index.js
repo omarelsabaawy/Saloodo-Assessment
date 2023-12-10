@@ -8,6 +8,7 @@ const authRoutes = require('./routes/auth');
 const senderRoutes = require('./routes/sender');
 const bikerRoutes = require('./routes/biker');
 const parcels = require('./models/parcels.json');
+const { getAllRecentOrders } = require('./controllers/biker');
 
 // Load environment variables from a .env file
 require('dotenv').config();
@@ -49,7 +50,15 @@ io.on('connection', (socket) => {
     });
 
     socket.on('createdParcel', () => {
-        socket.to(Object.values(connectedBikers)).emit('updateOrders', parcels);
+        const recentParcels = parcels.filter((parcel) => !parcel.parcelStatus.selected);
+        socket.to(Object.values(connectedBikers)).emit('updateOrders', recentParcels);
+    });
+
+    socket.on('bikerSelected', (bikerId) => {
+        const connectedBikersArray = Object.values(connectedBikers);
+        const otherConnectedBikers = connectedBikersArray.filter(biker => biker.id !== bikerId);
+        const recentParcels = parcels.filter((parcel) => !parcel.parcelStatus.selected);
+        socket.to(otherConnectedBikers).emit('update recent orders after biker selection', recentParcels);
     });
 
     // Socket.IO disconnect event

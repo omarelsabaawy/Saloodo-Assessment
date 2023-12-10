@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useUser } from '../Context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
@@ -7,6 +7,10 @@ import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
 import { Button, Grid, TextField } from '@mui/material';
 import { selectOrderAndSetTimeStamps } from '../Services/Captains/SelectParcelAndSetTimeStamps';
+import io from 'socket.io-client'
+
+const ENDPOINT = "http://localhost:8080";
+var socket;
 
 const style = {
     position: 'absolute',
@@ -26,6 +30,14 @@ const style = {
 function SelectParcel({ open, handleClose, order }) {
     const [pickUpDate, setPickUpDate] = useState("");
     const [dropOffDate, setDropOffDate] = useState("");
+    const [socketConnected, setSocketConnected] = useState(false);
+
+
+    useEffect(() => {
+        socket = io(ENDPOINT);
+        socket.emit("bikerConnected", user.id);
+        socket.on("connection", () => setSocketConnected(true));
+    }, []);
 
     const { user } = useUser();
 
@@ -42,6 +54,7 @@ function SelectParcel({ open, handleClose, order }) {
             const result = await selectOrderAndSetTimeStamps(timeStamps, order.parcelId, user.token);
 
             if (result) {
+                socket.emit('bikerSelected', user.id);
                 navigate('/Captain/inProgress');
             }
 

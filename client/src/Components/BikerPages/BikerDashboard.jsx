@@ -41,14 +41,22 @@ function BikerDashboard() {
     }, [])
 
     useEffect(() => {
-        // socket.emit('bikerConnected', user.id);
+        socket.emit('bikerConnected', user.id);
         const handleUpdateOrders = (parcels) => {
-            console.log('Received updated orders:', parcels);
             setOrders(parcels);
         };
         socket.on("updateOrders", handleUpdateOrders);
 
     }, []);
+
+    useEffect(() => {
+        const handleUpdateOrders = (recentParcels) => {
+            console.log('Received updated orders:', recentParcels);
+            console.log(recentParcels);
+            setOrders(recentParcels);
+        };
+        socket.on('update recent orders after biker selection', handleUpdateOrders);
+    }, [])
 
     useEffect(() => {
         const fetchOrders = async () => {
