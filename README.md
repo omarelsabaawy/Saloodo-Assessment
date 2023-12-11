@@ -61,8 +61,8 @@ I apologize for any inconvenience caused by the delay, and I am now pushing the 
       npm start
    ```
 3. In a new terminal, start the frontend:
-  ```bash
-      cd client
+   ```bash
+      cd server
       npm install
       npm start
    ```
