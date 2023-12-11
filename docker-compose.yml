@@ -2,16 +2,18 @@ version: "3"
 services:
   frontend:
     build:
-      context: ./client
+      context: "./client"
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     volumes:
-      - ./client:/usr/src/app
+      - "./client:/Saloodo-Assessment/parcelTracking/client"
 
   backend:
     build:
-      context: ./server
+      context: "./server"
+      dockerfile: Dockerfile
     ports:
       - "5000:5000"
     volumes:
-      - ./server:/app
+      - "./server:/Saloodo-Assessment/parcelTracking/server"
