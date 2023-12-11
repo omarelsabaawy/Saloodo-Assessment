@@ -10,7 +10,7 @@ Worked on the project for the past 3 days and missed pushing updates to GitHub.
 
 During the last three days, I dedicated my efforts to enhancing the project with various improvements and new features. Unfortunately, due to an oversight, these changes were not pushed to GitHub in real-time. This commit captures the accumulated work over the past three days.
 
-### Changes Made:
+### Changes Made during the first 3 days:
 
 - Set up the Node.js REST API.
 - Set up the React Application.
@@ -30,6 +30,10 @@ During the last three days, I dedicated my efforts to enhancing the project with
 I apologize for any inconvenience caused by the delay, and I am now pushing the updates to GitHub for review and collaboration.
 
 ### Tools Used:
+
+### Language Used:
+
+- JavaScript
 
 #### Backend:
 
