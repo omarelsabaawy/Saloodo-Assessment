@@ -55,18 +55,17 @@ I apologize for any inconvenience caused by the delay, and I am now pushing the 
    ```
    
 2. Start the backend server:
-
-  ```bash
-    cd server
-    npm install
-    npm start
+   ```bash
+      cd server
+      npm install
+      npm start
    ```
 3. In a new terminal, start the frontend:
   ```bash
-    cd client
-    npm install
-    npm run start
-  ```
+      cd client
+      npm install
+      npm start
+   ```
 **Now, the Parcel Tracking Application should be accessible at [http://localhost:3000](http://localhost:3000).**
 
 #### Option 2: Run with Docker
