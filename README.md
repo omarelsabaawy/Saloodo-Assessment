@@ -49,7 +49,7 @@ I apologize for any inconvenience caused by the delay, and I am now pushing the 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/omarelsabaawy/Saloodo-Assessment.git
+      git clone https://github.com/omarelsabaawy/Saloodo-Assessment.git
    ```
    
 2. Start the backend server:
