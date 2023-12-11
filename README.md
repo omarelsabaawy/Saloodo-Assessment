@@ -103,4 +103,12 @@ I apologize for any inconvenience caused by the delay, and I am now pushing the 
 
 **Now, the Parcel Tracking Application should be accessible at [http://localhost:3000](http://localhost:3000).**
 
+## User Authentication
 
+### Option 1 hard-coded senders and bikers
+
+the hard-coded senders and bikers where the senders are **"user1", "user2", ..."user5" with a password of "password1"..."password5"**, as well as for the bikers **"biker1", "biker2", ..."biker10" with a password of "password1"..."password10"**.
+
+### Option 2 using the signup function.
+
+There is a signup function that is provided to make sure you can create new users either as senders, or bikers.
