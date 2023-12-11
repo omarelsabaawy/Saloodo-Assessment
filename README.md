@@ -46,6 +46,8 @@ I apologize for any inconvenience caused by the delay, and I am now pushing the 
 
 ### How to Run the Application:
 
+#### Option 1: Run Locally
+
 1. Clone the repository:
 
    ```bash
@@ -65,4 +67,37 @@ I apologize for any inconvenience caused by the delay, and I am now pushing the 
     npm install
     npm run start
   ```
-Now, the Parcel Tracking Application should be accessible at http://localhost:3000.
+**Now, the Parcel Tracking Application should be accessible at [http://localhost:3000](http://localhost:3000).**
+
+#### Option 2: Run with Docker
+
+1. Clone the repository:
+
+   ```bash
+      git clone https://github.com/omarelsabaawy/Saloodo-Assessment.git
+   ```
+   
+2. Build and run the backend with Docker:
+
+   ```bash
+      cd server
+      docker build -t saloodoAssessmentServer .
+      docker run -p 5000:5000 saloodoAssessmentServer
+   ```
+3. In a new terminal, build and run the frontend with Docker:
+
+   ```bash
+      cd client
+      docker build -t saloodoAssessmentClient .
+      docker run -p 3000:3000 saloodoAssessmentClient
+   ```
+
+**Alternatively, you can use the provided Docker Compose file:**
+
+   ```bash
+      docker-compose up
+   ```
+
+**Now, the Parcel Tracking Application should be accessible at [http://localhost:3000](http://localhost:3000).**
+
+
